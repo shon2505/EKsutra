@@ -1,0 +1,1197 @@
+You are a senior full-stack engineer, UI/UX designer, software architect, and hackathon prototype specialist.
+
+Build a complete, polished, mobile-responsive working prototype for our Smart India Hackathon project called:
+
+# EKsutra
+
+### Federated Verification & Government Service Interoperability Framework
+
+The prototype is for a college SIH presentation. It must be extremely easy for a non-technical judge to understand visually.
+
+The most important goal is NOT technical complexity.
+
+The most important goal is:
+
+> A judge should understand the complete value of Eksutra within 30–60 seconds without needing to understand APIs, JSON, middleware, databases, or software architecture.
+
+---
+
+# 1. CORE CONCEPT
+
+Eksutra is a middleware/interoperability layer between government departments.
+
+It does NOT replace government portals.
+
+It does NOT store the actual Aadhaar/PAN/marksheet documents.
+
+Instead, when a government department verifies a document, Eksutra stores a secure verification assertion saying that the document was verified by a trusted department.
+
+Example:
+
+A citizen applies at Department A.
+
+Department A verifies:
+
+* Aadhaar
+* PAN
+* Driving Licence
+
+The citizen gives consent for the verification status to be stored and reused for eligible government services.
+
+Eksutra stores a JSON-style verification assertion:
+
+{
+"subjectId": "USER-1001",
+"documentType": "PAN",
+"status": "VERIFIED",
+"verifiedBy": "Department A",
+"verifiedAt": "2026-09-04",
+"validUntil": "2026-10-04",
+"purpose": "Government Service",
+"consentId": "CONSENT-001"
+}
+
+The actual document must NOT be stored.
+
+Later, the same citizen visits Department B and applies for a scholarship.
+
+Department B requires:
+
+* Aadhaar
+* PAN
+* Marksheet
+
+The citizen selects:
+
+"Use Eksutra"
+
+Eksutra checks the available valid verification assertions.
+
+It responds:
+
+Aadhaar ✓ Already verified
+PAN ✓ Already verified
+Marksheet ✗ Not verified
+
+Therefore Department B asks the citizen only for the marksheet.
+
+This is the central demonstration.
+
+---
+
+# 2. VERY IMPORTANT UX PRINCIPLE
+
+DO NOT make the user understand:
+
+* API requests
+* API responses
+* JSON
+* middleware architecture
+* databases
+* cryptography
+
+through technical screens.
+
+Instead, make the UI communicate:
+
+"Already Verified"
+
+"Needs Verification"
+
+"Verified by Department A"
+
+"Valid until 4 Oct 2026"
+
+"Consent Granted"
+
+"Only one document is still required"
+
+Technical details can appear in a small optional "Technical Details" expandable section.
+
+---
+
+# 3. TECHNOLOGY REQUIREMENTS
+
+Build the entire prototype as ONE Next.js application.
+
+Use:
+
+* Next.js
+* TypeScript
+* Tailwind CSS
+* React
+* Next.js API routes / Route Handlers
+* PostgreSQL/Supabase for persistence
+* Zod for request validation
+* Lucide React icons
+* Recharts only for the government official dashboard if charts are useful
+
+The application must be deployable to Vercel.
+
+Do NOT require a separate Python/FastAPI backend.
+
+Do NOT require Docker.
+
+Do NOT require Kubernetes.
+
+Do NOT require blockchain.
+
+Do NOT require Aadhaar integration.
+
+Do NOT require real government APIs.
+
+Do NOT require real citizen data.
+
+Everything must use safe synthetic/demo data.
+
+---
+
+# 4. IMPORTANT DATA STORAGE RULE
+
+Do NOT rely on writing JSON files to the Vercel filesystem.
+
+Represent verification assertions as JSON objects in the application/database.
+
+Persist the records using Supabase/PostgreSQL.
+
+The database should contain demo records such as:
+
+* users
+* departments
+* applications
+* consent records
+* verification assertions
+* audit logs
+
+The UI may show the verification assertion as formatted JSON for demonstration purposes.
+
+---
+
+# 5. DEMO DEPARTMENTS
+
+Create three simulated government departments:
+
+### Department A
+
+Agriculture Department
+
+Example service:
+Farmer Registration
+
+### Department B
+
+Education/Welfare Department
+
+Example service:
+Scholarship Application
+
+### Department C
+
+Revenue Department
+
+Example service:
+Land/Income Verification
+
+They should appear visually as realistic but clearly fictional government portals.
+
+Do NOT use actual Government of India branding or imply these are real government websites.
+
+Add a small label:
+
+"Prototype / Demonstration Portal"
+
+---
+
+# 6. PRIMARY DEMO USER
+
+Create a seeded demo user:
+
+Name:
+Rahul Sharma
+
+Synthetic ID:
+USER-1001
+
+Do NOT use real Aadhaar/PAN numbers.
+
+Use synthetic references such as:
+
+AADHAAR-DEMO-001
+PAN-DEMO-001
+DL-DEMO-001
+MARKS-DEMO-001
+
+---
+
+# 7. MAIN USER JOURNEY
+
+The prototype should have a very obvious guided flow.
+
+Create a landing page:
+
+# Eksutra
+
+"Verify once. Reuse securely."
+
+Subtitle:
+
+"An interoperability layer that allows trusted verification results to be reused across government services with citizen consent."
+
+Show a simple 4-step visual:
+
+1. Verify
+2. Give Consent
+3. Reuse
+4. Track
+
+Then provide:
+
+[Start Demo]
+
+---
+
+# 8. DEPARTMENT A FLOW
+
+When the user starts the demo, take them to:
+
+## Agriculture Department
+
+Header:
+
+Agriculture Department
+Farmer Registration
+
+Show:
+
+Applicant:
+Rahul Sharma
+
+Required documents:
+
+Aadhaar
+PAN
+Driving Licence
+
+Each should initially show:
+
+[Verify]
+
+When clicked, simulate verification.
+
+Example:
+
+Aadhaar
+✓ Verified
+
+PAN
+✓ Verified
+
+Driving Licence
+✓ Verified
+
+Use short realistic loading animations such as:
+
+"Verifying..."
+
+then:
+
+"Verified"
+
+---
+
+# 9. CONSENT STEP
+
+After all documents are verified, display a very simple consent card.
+
+Title:
+
+### Consent for Eksutra
+
+Text:
+
+"Department A has verified your documents. With your permission, Eksutra can securely store the verification status and allow authorized government services to reuse these verified results."
+
+Show:
+
+✓ Store verification status
+✓ Allow authorized reuse for government services
+
+Button:
+
+[Accept & Continue]
+
+Do NOT add consent revocation functionality yet.
+
+Do NOT create a citizen dashboard.
+
+The citizen should only see this consent interaction embedded in the government service journey.
+
+Make it look like an embedded consent component, similar to a Terms & Conditions acceptance.
+
+Important:
+
+The consent is NOT permission to share the actual document.
+
+The consent is for storing/reusing the verification assertion.
+
+---
+
+# 10. AFTER CONSENT
+
+Show a success state:
+
+### You're all set!
+
+"Your verified information can now be reused by eligible government services."
+
+Show:
+
+Aadhaar ✓
+PAN ✓
+Driving Licence ✓
+
+Then show:
+
+"Stored as secure verification assertions"
+
+Button:
+
+[Continue to another service]
+
+---
+
+# 11. TECHNICAL ASSERTION VIEW
+
+Include a small optional button:
+
+[View Verification Details]
+
+When clicked, show a clean modal containing JSON.
+
+Example:
+
+{
+"subjectId": "USER-1001",
+"documentType": "PAN",
+"status": "VERIFIED",
+"issuer": "AGRICULTURE-DEPARTMENT",
+"verifiedAt": "2026-09-04",
+"validUntil": "2026-10-04",
+"consentId": "CONSENT-001",
+"signatureStatus": "VALID"
+}
+
+Make it clear:
+
+"Demo verification assertion — underlying document is not stored."
+
+This is useful if a technical judge wants to see what the middleware actually stores.
+
+---
+
+# 12. DIGITAL SIGNATURE / SECURITY DEMONSTRATION
+
+Implement a prototype integrity mechanism.
+
+Every verification assertion must contain a digital signature or cryptographic integrity value.
+
+The conceptual architecture is:
+
+Department A verifies the document
+↓
+Department A signs the verification assertion
+↓
+Eksutra stores the signed assertion
+↓
+Department B requests verification
+↓
+Eksutra validates the signature
+↓
+Only valid assertions are returned
+
+Use a standard cryptographic library.
+
+Do NOT implement cryptography yourself.
+
+For the prototype, use a secure standard signing mechanism supported by Node.js crypto/Web Crypto.
+
+The code should clearly separate:
+
+* assertion creation
+* assertion signing
+* signature verification
+
+Do not expose private keys in the frontend.
+
+Use environment variables or server-side configuration for demo keys/secrets.
+
+Add an optional technical status:
+
+"Signature: VALID"
+
+Do not over-emphasize cryptography on the main UI.
+
+---
+
+# 13. DEPARTMENT B FLOW
+
+Now take the user to:
+
+## Education & Welfare Department
+
+Service:
+
+### Scholarship Application
+
+Applicant:
+
+Rahul Sharma
+
+Required documents:
+
+Aadhaar
+PAN
+Marksheet
+
+Give the user two options:
+
+### Option 1
+
+[Use Eksutra]
+
+### Option 2
+
+[Upload Manually]
+
+The entire point of the prototype is that the user chooses:
+
+[Use Eksutra]
+
+---
+
+# 14. EKsutra VERIFICATION SCREEN
+
+When the user selects "Use Eksutra", show a beautiful verification animation.
+
+Title:
+
+### Checking your verified information...
+
+Then show:
+
+Matching identity...
+✓
+
+Checking consent...
+✓
+
+Checking trusted issuer...
+✓
+
+Checking verification validity...
+✓
+
+Checking verification signature...
+✓
+
+Then display:
+
+# Eksutra Verification Report
+
+Aadhaar
+✓ Already Verified
+
+Verified by:
+Agriculture Department
+
+Valid until:
+04 Oct 2026
+
+PAN
+✓ Already Verified
+
+Verified by:
+Agriculture Department
+
+Valid until:
+04 Oct 2026
+
+Marksheet
+! Verification Not Found
+
+---
+
+# 15. MOST IMPORTANT VISUAL MOMENT
+
+Show a large summary:
+
+### 2 of 3 documents already verified
+
+Aadhaar ✓
+PAN ✓
+Marksheet → Required
+
+Then:
+
+"Instead of uploading everything again, you only need to provide the missing document."
+
+Button:
+
+[Verify Marksheet]
+
+This should be the emotional/visual payoff of the entire prototype.
+
+---
+
+# 16. MARKSHEET VERIFICATION
+
+When the user clicks:
+
+[Verify Marksheet]
+
+simulate the upload/verification process.
+
+Do not actually upload files to production storage.
+
+Use a mock document verification flow.
+
+Show:
+
+Uploading...
+Checking...
+Verified ✓
+
+Then:
+
+Aadhaar ✓
+PAN ✓
+Marksheet ✓
+
+---
+
+# 17. FINAL APPLICATION SCREEN
+
+Show:
+
+# Application Ready
+
+Rahul Sharma
+
+Documents:
+
+Aadhaar ✓
+PAN ✓
+Marksheet ✓
+
+Verification:
+
+3 / 3 Complete
+
+Status:
+
+Ready for Department Review
+
+Application ID:
+
+SCH-2026-1001
+
+Do not make Eksutra approve the scholarship.
+
+The department remains responsible for the final decision.
+
+Add a subtle note:
+
+"Eksutra provides interoperability and verification reuse. Final eligibility and approval remain with the department."
+
+---
+
+# 18. GOVERNMENT OFFICIAL DASHBOARD
+
+There should be NO citizen dashboard.
+
+There should be ONLY a government official dashboard.
+
+Create:
+
+/admin
+
+Title:
+
+# Eksutra Admin Dashboard
+
+Subtitle:
+
+"Government Official View"
+
+The dashboard should show simple metrics.
+
+Cards:
+
+Total Applications
+1,248
+
+Verified Documents
+3,842
+
+Verification Reuse
+2,916
+
+Applications Completed
+986
+
+Then charts:
+
+Verification reuse over time
+
+Applications processed
+
+Department-wise usage
+
+Verification status:
+
+Verified
+Pending
+Failed
+
+System health:
+
+Agriculture API
+● Healthy
+
+Revenue API
+● Healthy
+
+Education API
+● Healthy
+
+---
+
+# 19. APPLICATION MONITORING
+
+Add a table:
+
+Application ID
+Department
+Service
+Verification Status
+Last Updated
+
+Example:
+
+SCH-2026-1001
+Education
+Scholarship
+3/3 Verified
+Just now
+
+AGR-2026-2045
+Agriculture
+Farmer Registration
+3/3 Verified
+2 min ago
+
+REV-2026-3011
+Revenue
+Land Verification
+2/3 Verified
+5 min ago
+
+---
+
+# 20. AUDIT LOG
+
+Add a simple audit section.
+
+Example:
+
+10:30
+Rahul Sharma gave consent
+
+10:31
+PAN verification assertion created
+
+10:31
+Aadhaar verification assertion created
+
+10:36
+Department B requested verification
+
+10:36
+PAN verification reused
+
+10:36
+Aadhaar verification reused
+
+10:37
+Marksheet verification requested
+
+10:38
+Application completed
+
+Do NOT expose sensitive personal information.
+
+---
+
+# 21. FAILURE DEMO
+
+Add one controlled demo capability.
+
+Create a button in the admin/demo area:
+
+[Simulate Department API Failure]
+
+When activated, the next verification request should show:
+
+Department service temporarily unavailable.
+
+Retrying...
+
+Retry successful ✓
+
+Verification completed.
+
+This demonstrates that Eksutra handles exceptions rather than simply connecting APIs.
+
+Do not make the failure random.
+
+It should be deterministic and easy to demonstrate.
+
+---
+
+# 22. TAMPERING DEMO
+
+Add an optional technical demonstration in the admin/technical area.
+
+Button:
+
+[Simulate Assertion Tampering]
+
+When clicked, intentionally modify a harmless demo field such as:
+
+validUntil
+
+without updating the digital signature.
+
+Then run verification.
+
+The system should display:
+
+# Verification Failed
+
+"Digital signature validation failed. The verification assertion may have been modified."
+
+Show:
+
+Expected:
+Signature valid
+
+Actual:
+Signature invalid
+
+Then provide:
+
+[Restore Original Assertion]
+
+This is an optional advanced demo for technical judges.
+
+Do NOT show this on the main citizen journey.
+
+---
+
+# 23. ARCHITECTURE REPRESENTATION INSIDE THE APP
+
+Add a small "How Eksutra Works" section.
+
+Keep it extremely simple:
+
+Government Portal
+↓
+Consent
+↓
+Eksutra
+↓
+Verification Registry
+↓
+Other Government Services
+
+Use four words:
+
+CONNECT
+STANDARDIZE
+VERIFY
+REUSE
+
+Do not create a giant technical architecture diagram inside the application.
+
+---
+
+# 24. DESIGN REQUIREMENTS
+
+The design must be:
+
+* Extremely clean
+* Minimal
+* Professional
+* Government/public-service inspired
+* White background
+* Very little color
+* Use one primary accent color
+* Green only for successful verification
+* Red only for errors
+* Lots of whitespace
+* Rounded cards
+* Clear typography
+* Mobile responsive
+* Desktop responsive
+* Touch friendly
+
+Avoid:
+
+* Excessive gradients
+* Neon colors
+* Glassmorphism
+* Huge animations
+* Gaming UI
+* Excessive icons
+* Excessive text
+* Technical jargon
+
+The application should look like a serious government technology prototype, not an AI-generated template.
+
+---
+
+# 25. MOBILE REQUIREMENT
+
+The entire demo must work beautifully on:
+
+* Laptop
+* Tablet
+* Mobile phone
+
+Use responsive layouts.
+
+The main demo buttons must be large enough to tap easily.
+
+The verification report should stack vertically on mobile.
+
+The admin dashboard should remain usable on mobile by converting tables/cards appropriately.
+
+---
+
+# 26. DEMO NAVIGATION
+
+Add a small unobtrusive demo navigation.
+
+Possible routes:
+
+/
+/department/agriculture
+/department/scholarship
+/admin
+
+Optional:
+
+/technical
+
+Do NOT make the application complicated.
+
+A judge should be able to follow:
+
+Landing
+→ Agriculture
+→ Verify
+→ Consent
+→ Scholarship
+→ Use Eksutra
+→ Verification Report
+→ Verify Marksheet
+→ Completed
+
+---
+
+# 27. STATE MANAGEMENT
+
+The demo must maintain state across the entire journey.
+
+If the user verifies Aadhaar/PAN at Department A and gives consent, Department B must actually see those verification assertions.
+
+Do not fake each screen independently.
+
+Use a simple state/data layer.
+
+Persist the demo data using Supabase/PostgreSQL where practical.
+
+For demo fallback, provide seeded data so the application works immediately.
+
+---
+
+# 28. API ENDPOINTS
+
+Create clean internal API routes such as:
+
+POST /api/consent
+
+POST /api/verification/create
+
+GET /api/verification/:subjectId
+
+POST /api/verification/check
+
+POST /api/verification/verify-signature
+
+POST /api/application
+
+POST /api/demo/failure
+
+POST /api/demo/tamper
+
+GET /api/admin/metrics
+
+GET /api/admin/audit
+
+Use Zod to validate requests.
+
+Return clean JSON responses.
+
+---
+
+# 29. IMPORTANT SECURITY MODEL
+
+The architecture should follow:
+
+Citizen
+→ gives consent
+
+Department
+→ performs actual document verification
+
+Department
+→ issues/sends verification assertion
+
+Eksutra
+→ stores/manages assertion
+
+Eksutra
+→ validates consent, issuer, validity, subject and signature
+
+Department B
+→ receives verification result
+
+Department B
+→ makes its own final service decision
+
+Eksutra must NOT claim that it itself verified Aadhaar/PAN.
+
+Use language such as:
+
+"Verified by Agriculture Department"
+
+NOT:
+
+"Verified by Eksutra"
+
+---
+
+# 30. NO REAL GOVERNMENT INTEGRATIONS
+
+Everything must be mock/simulated.
+
+Do not use:
+
+* Real Aadhaar
+* Real PAN
+* Real driving licence
+* Real government databases
+* Real government credentials
+* Real citizen information
+* Real authentication systems
+
+Clearly label all data:
+
+"Demo Data"
+
+---
+
+# 31. EXISTING DPI POSITIONING
+
+Do not claim Eksutra replaces:
+
+* API Setu
+* DigiLocker
+* MeriPehchaan
+* UMANG
+
+The application should explain, if needed:
+
+"Eksutra is designed as an interoperability/orchestration layer that can work with existing digital public infrastructure and departmental systems."
+
+---
+
+# 32. KEY MESSAGE
+
+The entire application should communicate this:
+
+### "The citizen should not have to become the integration layer between government departments."
+
+And:
+
+### "Verify once. Reuse securely."
+
+---
+
+# 33. IMPORTANT PROTOTYPE CONSTRAINT
+
+This is a hackathon demonstration.
+
+Prioritize:
+
+1. Working end-to-end flow
+2. Visual clarity
+3. Reliability
+4. Mobile responsiveness
+5. Clean UI
+6. Security demonstration
+7. Easy deployment
+
+Do NOT waste time building enterprise infrastructure.
+
+Do NOT add:
+
+* Kubernetes
+* Microservice explosion
+* Kafka
+* Blockchain
+* Complex IAM
+* Real Aadhaar authentication
+* Complex ML
+* Complex workflow engines
+
+The prototype should be small but technically credible.
+
+---
+
+# 34. README
+
+Generate a comprehensive README containing:
+
+* What Eksutra is
+* Architecture
+* User flow
+* Technology stack
+* Database schema
+* Security model
+* How digital signatures work
+* How consent works
+* How to run locally
+* How to configure Supabase
+* Environment variables
+* How to deploy to Vercel
+* Demo credentials if required
+* Known limitations
+* What would be added in production
+
+Clearly distinguish:
+
+Prototype implementation
+vs.
+Production architecture.
+
+---
+
+# 35. SEED DATA
+
+Automatically provide demo data so the application is immediately usable.
+
+Seed:
+
+Rahul Sharma / USER-1001
+
+Agriculture Department
+
+Verified:
+
+Aadhaar
+PAN
+Driving Licence
+
+Consent:
+ACTIVE
+
+Scholarship application:
+
+Aadhaar → reusable
+PAN → reusable
+Marksheet → missing
+
+Admin metrics should already contain realistic demo values.
+
+---
+
+# 36. FINAL QUALITY REQUIREMENT
+
+Before finishing:
+
+* Make sure npm install works
+* Make sure npm run dev works
+* Make sure npm run build works
+* Fix TypeScript errors
+* Fix lint errors
+* Make sure every route works
+* Make sure mobile layouts work
+* Make sure the complete demo can be performed in under 3 minutes
+* Make sure refreshes do not destroy the demo unexpectedly
+* Make sure no real personal information is used
+* Make sure there are no broken buttons
+* Make sure there are no placeholder lorem ipsum texts
+* Make sure the UI looks polished
+
+If a feature is too complex for a reliable prototype, simplify the implementation while preserving the visible concept.
+
+---
+
+# 37. MOST IMPORTANT INSTRUCTION
+
+Do NOT just give me an architecture explanation.
+
+Actually generate the complete project.
+
+Return:
+
+1. Project structure
+2. All required source files
+3. Database schema
+4. Seed data
+5. API routes
+6. UI components
+7. Styling
+8. Environment variable example
+9. README
+10. Vercel deployment instructions
+
+The project must be runnable.
+
+Do not leave major sections as:
+
+"Implement this yourself"
+
+"Add your API here"
+
+"TODO"
+
+The prototype must be as close to deployment-ready as possible.
+
+Build the application around the exact user journey:
+
+DEPARTMENT A
+→ DOCUMENT VERIFICATION
+→ CONSENT
+→ SIGNED VERIFICATION ASSERTIONS
+→ EKsutra REGISTRY
+→ DEPARTMENT B
+→ USE EKsutra
+→ VERIFICATION REPORT
+→ ONLY MISSING DOCUMENT REQUESTED
+→ APPLICATION COMPLETED
+→ OFFICIAL DASHBOARD
+
+The UI should make this flow obvious even to a person who knows nothing about middleware.
