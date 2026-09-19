@@ -1,4 +1,14 @@
-"use client";
+const fs = require('fs');
+const path = require('path');
+
+const consentHeading = (dept) => `Allow ${dept} to use your verified documents`;
+const consentBody = "EkSutra doesn't store your documents. It stores a digital signature of each verified document, valid for 12 months — so other departments can confirm it's genuine without asking you to upload it again.";
+const consentAction = "I Agree & Continue";
+
+function generateDepartmentPage(deptId, deptName, service, nextDeptUrl, nextDeptName, requiredDocs, iconColor) {
+  const docsList = requiredDocs.map(d => `"${d}"`).join(', ');
+  
+  return `"use client";
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -16,11 +26,11 @@ import DepartmentTransition from "@/components/DepartmentTransition";
 
 type DocStatus = "idle" | "checking_eksutra" | "verifying" | "verified" | "failed";
 
-const REQUIRED_DOCS = ["AADHAAR", "LAND_RECORD", "INCOME_CERTIFICATE"];
+const REQUIRED_DOCS = [${docsList}];
 
 type FlowStep = "verify" | "consent" | "success";
 
-export default function AgricultureDepartmentPage() {
+export default function ${deptName.replace(/\s+/g, '')}Page() {
   const router = useRouter();
   const [docStatuses, setDocStatuses] = useState<Record<string, DocStatus>>(
     REQUIRED_DOCS.reduce((acc, doc) => ({ ...acc, [doc]: "idle" }), {})
@@ -76,24 +86,24 @@ export default function AgricultureDepartmentPage() {
   return (
     <div style={{ minHeight: "calc(100vh - 56px)", background: "var(--bg-base)" }}>
       {isRedirecting && (
-        <DepartmentTransition targetDept="Department of Revenue" targetUrl="/department/revenue" />
+        <DepartmentTransition targetDept="${nextDeptName}" targetUrl="${nextDeptUrl}" />
       )}
       
       {/* Dept Header */}
       <div style={{ background: "var(--bg-surface)", borderBottom: "1px solid var(--border-subtle)", padding: "1.5rem" }}>
         <div style={{ maxWidth: 700, margin: "0 auto" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "0.5rem" }}>
-            <Building2 size={20} style={{ color: "var(--accent-emerald)" }} />
+            <Building2 size={20} style={{ color: "${iconColor}" }} />
             <span style={{ fontSize: "0.875rem", color: "var(--text-secondary)" }}>
-              DEPT-AGR
+              ${deptId}
             </span>
             <Badge variant="demo">Prototype Portal</Badge>
           </div>
           <h1 style={{ margin: 0, fontSize: "1.75rem", fontWeight: 700, color: "var(--text-primary)" }}>
-            Agriculture Department
+            ${deptName}
           </h1>
           <div style={{ fontSize: "1.0625rem", color: "var(--text-secondary)", marginTop: "0.25rem" }}>
-            Service: Farmer Registration
+            Service: ${service}
           </div>
         </div>
       </div>
@@ -178,12 +188,18 @@ export default function AgricultureDepartmentPage() {
         )}
 
         {step === "consent" && (
-          <ConsentCard
-            subjectName={personalDetails.name}
-            departmentName=""
-            onAccept={handleConsent}
-            isLoading={consentLoading}
-          />
+          <Card>
+             <h2 style={{ margin: "0 0 1rem", fontSize: "1.5rem", fontWeight: 700, color: "var(--text-primary)" }}>
+                ${consentHeading(deptName)}
+              </h2>
+              <p style={{ color: "var(--text-secondary)", margin: "0 0 2rem", fontSize: "1rem", lineHeight: 1.6 }}>
+                ${consentBody}
+              </p>
+              <Button size="lg" onClick={handleConsent} disabled={consentLoading} style={{ width: "100%" }}>
+                {consentLoading ? <div className="spinner" /> : null}
+                ${consentAction}
+              </Button>
+          </Card>
         )}
 
         {step === "success" && (
@@ -212,13 +228,13 @@ export default function AgricultureDepartmentPage() {
                  </Button>
               </div>
 
-              
+              ${nextDeptUrl ? `
               <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap", borderTop: "1px solid var(--border-subtle)", paddingTop: "2rem" }}>
                 <Button onClick={() => setRedirecting(true)} id="continue-to-next-btn">
-                  Continue to Department of Revenue
+                  Continue to ${nextDeptName}
                   <ArrowRight size={18} />
                 </Button>
-              </div>
+              </div>` : ''}
             </Card>
           </div>
         )}
@@ -226,3 +242,37 @@ export default function AgricultureDepartmentPage() {
     </div>
   );
 }
+`;
+}
+
+// Generate Agriculture page
+const agPage = generateDepartmentPage(
+  "DEPT-AGR",
+  "Agriculture Department",
+  "Farmer Registration",
+  "/department/revenue",
+  "Department of Revenue",
+  ["AADHAAR", "LAND_RECORD", "INCOME_CERTIFICATE"], // Aadhaar, 7/12 Land Extract, Income Certificate
+  "var(--accent-emerald)"
+);
+
+// Generate Revenue page
+const revPage = generateDepartmentPage(
+  "DEPT-REV",
+  "Revenue Department",
+  "Land / Income Verification",
+  "",
+  "",
+  ["AADHAAR", "LAND_RECORD", "PROPERTY_TAX_RECEIPT"], // Aadhaar, 7/12 Land Extract, Property Tax Receipt
+  "var(--text-secondary)"
+);
+
+fs.writeFileSync(path.join(__dirname, 'app/department/agriculture/page.tsx'), agPage);
+
+const revDir = path.join(__dirname, 'app/department/revenue');
+if (!fs.existsSync(revDir)) {
+  fs.mkdirSync(revDir, { recursive: true });
+}
+fs.writeFileSync(path.join(revDir, 'page.tsx'), revPage);
+
+console.log('Pages generated');

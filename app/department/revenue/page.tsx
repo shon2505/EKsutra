@@ -16,11 +16,11 @@ import DepartmentTransition from "@/components/DepartmentTransition";
 
 type DocStatus = "idle" | "checking_eksutra" | "verifying" | "verified" | "failed";
 
-const REQUIRED_DOCS = ["AADHAAR", "LAND_RECORD", "INCOME_CERTIFICATE"];
+const REQUIRED_DOCS = ["AADHAAR", "LAND_RECORD", "PROPERTY_TAX_RECEIPT"];
 
 type FlowStep = "verify" | "consent" | "success";
 
-export default function AgricultureDepartmentPage() {
+export default function RevenueDepartmentPage() {
   const router = useRouter();
   const [docStatuses, setDocStatuses] = useState<Record<string, DocStatus>>(
     REQUIRED_DOCS.reduce((acc, doc) => ({ ...acc, [doc]: "idle" }), {})
@@ -76,24 +76,24 @@ export default function AgricultureDepartmentPage() {
   return (
     <div style={{ minHeight: "calc(100vh - 56px)", background: "var(--bg-base)" }}>
       {isRedirecting && (
-        <DepartmentTransition targetDept="Department of Revenue" targetUrl="/department/revenue" />
+        <DepartmentTransition targetDept="" targetUrl="" />
       )}
       
       {/* Dept Header */}
       <div style={{ background: "var(--bg-surface)", borderBottom: "1px solid var(--border-subtle)", padding: "1.5rem" }}>
         <div style={{ maxWidth: 700, margin: "0 auto" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "0.5rem" }}>
-            <Building2 size={20} style={{ color: "var(--accent-emerald)" }} />
+            <Building2 size={20} style={{ color: "var(--text-secondary)" }} />
             <span style={{ fontSize: "0.875rem", color: "var(--text-secondary)" }}>
-              DEPT-AGR
+              DEPT-REV
             </span>
             <Badge variant="demo">Prototype Portal</Badge>
           </div>
           <h1 style={{ margin: 0, fontSize: "1.75rem", fontWeight: 700, color: "var(--text-primary)" }}>
-            Agriculture Department
+            Revenue Department
           </h1>
           <div style={{ fontSize: "1.0625rem", color: "var(--text-secondary)", marginTop: "0.25rem" }}>
-            Service: Farmer Registration
+            Service: Land / Income Verification
           </div>
         </div>
       </div>
@@ -213,12 +213,6 @@ export default function AgricultureDepartmentPage() {
               </div>
 
               
-              <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap", borderTop: "1px solid var(--border-subtle)", paddingTop: "2rem" }}>
-                <Button onClick={() => setRedirecting(true)} id="continue-to-next-btn">
-                  Continue to Department of Revenue
-                  <ArrowRight size={18} />
-                </Button>
-              </div>
             </Card>
           </div>
         )}

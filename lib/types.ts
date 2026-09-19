@@ -13,7 +13,7 @@ export type DocumentType =
   | "DRIVING_LICENCE"
   | "MARKSHEET"
   | "INCOME_CERTIFICATE"
-  | "LAND_RECORD";
+  | "LAND_RECORD" | "PROPERTY_TAX_RECEIPT";
 
 export type VerificationStatus = "VERIFIED" | "PENDING" | "FAILED" | "EXPIRED";
 
@@ -58,6 +58,30 @@ export interface Department {
   color: string;
 }
 
+export type ConnectionState = "connected" | "pending_incoming" | "pending_outgoing" | "not_connected" | "removed";
+
+export interface ApiConnection {
+  apiId: string;
+  name: string;
+  departmentId: string;
+  state: ConnectionState;
+  lastSynced?: string;
+  connectedAt?: string;
+}
+
+export interface ConnectionRequest {
+  id: string;
+  fromDeptId: string;
+  fromDeptName: string;
+  toDeptId: string;
+  toDeptName: string;
+  targetApiId: string;
+  targetApiName: string;
+  timestamp: string;
+  status: "pending" | "accepted" | "rejected" | "removed";
+}
+
+
 export interface Application {
   id: string;
   applicationRef: string; // e.g. SCH-2026-1001
@@ -85,13 +109,12 @@ export interface AuditEntry {
 }
 
 export interface AdminMetrics {
-  totalApplications: number;
-  verifiedDocuments: number;
-  verificationReuse: number;
-  applicationsCompleted: number;
-  departmentUsage: { department: string; count: number }[];
-  verificationOverTime: { date: string; verified: number; reused: number }[];
-  statusBreakdown: { status: string; count: number }[];
+  totalConnections: number;
+  activeRequests: number;
+  verificationsReused: number;
+  avgResponseTime: string;
+  connectionBreakdown: { status: string; count: number }[];
+  requestsOverTime: { date: string; requests: number; reused: number }[];
 }
 
 // API Request / Response types

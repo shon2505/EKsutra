@@ -1,96 +1,45 @@
-"use client";
+import { AuditEntry } from "@/lib/types";
+import Badge from "./ui/Badge";
 
-import type { AuditEntry } from "@/lib/types";
-
-const EVENT_COLORS: Record<string, string> = {
-  CONSENT_GRANTED: "#1a56db",
-  ASSERTION_CREATED: "#057a55",
-  ASSERTION_REUSED: "#7c3aed",
-  VERIFICATION_REQUEST: "#1a56db",
-  VERIFICATION_REQUESTED: "#1a56db",
-  APPLICATION_COMPLETED: "#057a55",
-  APPLICATION_CREATED: "#1a56db",
-  ASSERTION_TAMPERED: "#c81e1e",
-  ASSERTION_RESTORED: "#057a55",
-  DEMO_FAILURE_ENABLED: "#92400e",
-  DEMO_FAILURE_DISABLED: "#057a55",
-};
-
-function formatTime(isoStr: string): string {
-  try {
-    return new Date(isoStr).toLocaleTimeString("en-IN", {
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: false,
-    });
-  } catch {
-    return isoStr;
-  }
-}
-
-interface AuditLogProps {
-  entries: AuditEntry[];
-}
-
-export default function AuditLog({ entries }: AuditLogProps) {
-  if (!entries.length) {
+export default function AuditLog({ entries }: { entries: AuditEntry[] }) {
+  if (entries.length === 0) {
     return (
-      <div style={{ padding: "2rem", textAlign: "center", color: "var(--color-text-muted)" }}>
-        No audit entries yet.
+      <div style={{ textAlign: "center", padding: "2rem", color: "var(--text-secondary)" }}>
+        No audit events recorded yet.
       </div>
     );
   }
 
   return (
-    <div style={{ display: "flex", flexDirection: "column" }}>
-      {entries.map((entry) => {
-        const color = EVENT_COLORS[entry.eventType] || "var(--color-text-muted)";
-        return (
-          <div key={entry.id} className="audit-item">
-            <div
-              className="audit-dot"
-              style={{ background: color, marginTop: 6 }}
-            />
-            <div style={{ flex: 1, minWidth: 0 }}>
-              <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", flexWrap: "wrap" }}>
-                <span
-                  style={{
-                    fontSize: "0.75rem",
-                    fontFamily: "monospace",
-                    color: "var(--color-text-muted)",
-                    flexShrink: 0,
-                  }}
-                >
-                  {formatTime(entry.timestamp)}
-                </span>
-                <span
-                  style={{
-                    fontSize: "0.6875rem",
-                    fontWeight: 600,
-                    color,
-                    background: `${color}15`,
-                    padding: "0.125rem 0.4375rem",
-                    borderRadius: "9999px",
-                    flexShrink: 0,
-                  }}
-                >
-                  {entry.eventType.replace(/_/g, " ")}
-                </span>
-              </div>
-              <p
-                style={{
-                  margin: "0.25rem 0 0",
-                  fontSize: "0.875rem",
-                  color: "var(--color-text)",
-                  lineHeight: 1.5,
-                }}
-              >
+    <div style={{ overflowX: "auto" }}>
+      <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.875rem" }}>
+        <thead>
+          <tr style={{ borderBottom: "1px solid var(--border-subtle)", color: "var(--text-secondary)" }}>
+            <th style={{ textAlign: "left", padding: "0.75rem", fontWeight: 600 }}>Timestamp</th>
+            <th style={{ textAlign: "left", padding: "0.75rem", fontWeight: 600 }}>Action</th>
+            <th style={{ textAlign: "left", padding: "0.75rem", fontWeight: 600 }}>Subject</th>
+            <th style={{ textAlign: "left", padding: "0.75rem", fontWeight: 600 }}>Status</th>
+            <th style={{ textAlign: "left", padding: "0.75rem", fontWeight: 600 }}>Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          {entries.map((entry) => (
+            <tr key={entry.id} style={{ borderBottom: "1px solid var(--border-subtle)" }}>
+              <td style={{ padding: "0.75rem", whiteSpace: "nowrap" }}>
+                {new Date(entry.timestamp).toLocaleString()}
+              </td>
+              <td style={{ padding: "0.75rem", fontWeight: 500, color: "var(--text-primary)" }}>{entry.eventType}</td>
+              <td style={{ padding: "0.75rem" }}>{entry.subjectId || entry.departmentId || "-"}</td>
+              <td style={{ padding: "0.75rem" }}>
+                <Badge variant="neutral">Logged</Badge>
+              </td>
+              <td style={{ padding: "0.75rem", color: "var(--text-secondary)", fontSize: "0.8125rem", maxWidth: "250px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                 {entry.description}
-              </p>
-            </div>
-          </div>
-        );
-      })}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }

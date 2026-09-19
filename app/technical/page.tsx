@@ -14,7 +14,10 @@ export default function TechnicalPage() {
           <div style={{ fontSize: "0.8125rem", color: "var(--color-text-muted)", marginBottom: "0.25rem" }}>
             Optional Technical View
           </div>
-          <h1 style={{ margin: 0, fontSize: "1.5rem", fontWeight: 700 }}>How EKsutra Works</h1>
+          <h1 style={{ margin: 0, fontSize: "1.5rem", fontWeight: 700, marginBottom: "0.5rem" }}>How EKsutra Works</h1>
+          <p style={{ margin: 0, fontSize: "1rem", color: "var(--color-text)", lineHeight: 1.6 }}>
+            EkSutra is the interoperability layer connecting citizens, government services and departmental systems.
+          </p>
         </div>
       </div>
 
@@ -168,7 +171,7 @@ timingSafeEqual(expected, actual)
           <h3 style={{ margin: "0 0 0.5rem", fontSize: "1rem", fontWeight: 700 }}>EKsutra is not a replacement</h3>
           <p style={{ margin: 0, fontSize: "0.875rem", lineHeight: 1.7, color: "var(--color-text)" }}>
             EKsutra is designed as an <strong>interoperability and orchestration layer</strong> that can work alongside existing
-            digital public infrastructure — including API Setu, DigiLocker, MeriPehchaan, and UMANG — not as a replacement.
+            digital public infrastructure — including API Setu, MeriPehchaan, and UMANG — not as a replacement.
             Departments retain full control over their verification processes and final service decisions.
           </p>
         </div>

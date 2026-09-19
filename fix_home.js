@@ -1,0 +1,11 @@
+const fs = require('fs');
+let code = fs.readFileSync('app/HomePageClient.tsx', 'utf8');
+code = code.replace(/var\(--color-border\)/g, 'var(--border-subtle)');
+code = code.replace(/var\(--color-text\)/g, 'var(--text-primary)');
+code = code.replace(/var\(--color-text-muted\)/g, 'var(--text-secondary)');
+code = code.replace(/var\(--color-primary\)/g, 'var(--accent-gold)');
+code = code.replace(/var\(--color-primary-light\)/g, 'rgba(212, 167, 44, 0.1)');
+code = code.replace(/var\(--color-bg\)/g, 'var(--bg-base)');
+code = code.replace(/background: "white"/g, 'background: "var(--bg-base)"');
+fs.writeFileSync('app/HomePageClient.tsx', code);
+console.log('Done');

@@ -2,6 +2,8 @@
 
 import { X, Lock, AlertTriangle, CheckCircle } from "lucide-react";
 import type { VerificationAssertion } from "@/lib/types";
+import Badge from "./ui/Badge";
+import Alert from "./ui/Alert";
 
 interface AssertionModalProps {
   assertions: VerificationAssertion[];
@@ -19,42 +21,33 @@ export default function AssertionModal({ assertions, onClose }: AssertionModalPr
             alignItems: "center",
             justifyContent: "space-between",
             padding: "1.25rem 1.5rem",
-            borderBottom: "1px solid var(--color-border)",
+            borderBottom: "1px solid var(--border-subtle)",
           }}
         >
-          <div style={{ display: "flex", alignItems: "center", gap: "0.625rem" }}>
-            <Lock size={18} style={{ color: "var(--color-primary)" }} />
+          <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+            <Lock size={20} style={{ color: "var(--accent-gold)" }} />
             <div>
-              <h3 style={{ margin: 0, fontSize: "1rem", fontWeight: 700 }}>Verification Details</h3>
-              <p style={{ margin: 0, fontSize: "0.75rem", color: "var(--color-text-muted)" }}>
-                Technical view — for judges and reviewers
+              <h3 style={{ margin: 0, fontSize: "1.125rem", fontWeight: 700, color: "var(--text-primary)" }}>Security Log (For Judges)</h3>
+              <p style={{ margin: 0, fontSize: "0.875rem", color: "var(--text-secondary)" }}>
+                Technical view — underlying verification record data
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            style={{ background: "none", border: "none", cursor: "pointer", color: "var(--color-text-muted)", padding: "0.25rem" }}
+            style={{ background: "none", border: "none", cursor: "pointer", color: "var(--text-secondary)", padding: "0.25rem" }}
+            aria-label="Close modal"
           >
-            <X size={20} />
+            <X size={24} />
           </button>
         </div>
 
         {/* Content */}
-        <div style={{ padding: "1.25rem 1.5rem" }}>
-          <div
-            style={{
-              background: "#fffbeb",
-              border: "1px solid #fde68a",
-              borderRadius: "0.5rem",
-              padding: "0.75rem 1rem",
-              marginBottom: "1.25rem",
-              fontSize: "0.8125rem",
-              color: "#92400e",
-            }}
-          >
-            <strong>Demo Verification Assertions</strong> — underlying documents are not stored by EKsutra.
+        <div style={{ padding: "1.5rem" }}>
+          <Alert variant="warning" style={{ marginBottom: "1.5rem" }}>
+            <strong>Demo Verification Records</strong> — underlying documents are not stored by EKsutra.
             Only the verification status and cryptographic signature are stored.
-          </div>
+          </Alert>
 
           {assertions.map((a, idx) => (
             <div key={a.id} style={{ marginBottom: idx < assertions.length - 1 ? "1.5rem" : 0 }}>
@@ -62,28 +55,25 @@ export default function AssertionModal({ assertions, onClose }: AssertionModalPr
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  gap: "0.5rem",
-                  marginBottom: "0.625rem",
+                  gap: "0.75rem",
+                  marginBottom: "0.75rem",
                 }}
               >
                 {a.signatureStatus === "VALID" ? (
-                  <CheckCircle size={15} style={{ color: "var(--color-success)" }} />
+                  <CheckCircle size={18} style={{ color: "var(--status-connected)" }} />
                 ) : (
-                  <AlertTriangle size={15} style={{ color: "var(--color-error)" }} />
+                  <AlertTriangle size={18} style={{ color: "var(--status-error)" }} />
                 )}
-                <span style={{ fontWeight: 600, fontSize: "0.875rem" }}>
-                  {a.documentType} Assertion
+                <span style={{ fontWeight: 600, fontSize: "0.9375rem", color: "var(--text-primary)" }}>
+                  {a.documentType} Record
                 </span>
-                <span
-                  className={`badge ${a.signatureStatus === "VALID" ? "badge-success" : "badge-error"}`}
-                  style={{ fontSize: "0.6875rem" }}
-                >
+                <Badge variant={a.signatureStatus === "VALID" ? "success" : "error"}>
                   Signature: {a.signatureStatus}
-                </span>
+                </Badge>
                 {a._tampered && (
-                  <span className="badge badge-error" style={{ fontSize: "0.6875rem" }}>
+                  <Badge variant="error">
                     ⚠ TAMPERED
-                  </span>
+                  </Badge>
                 )}
               </div>
               <pre className="json-block">
@@ -111,8 +101,8 @@ export default function AssertionModal({ assertions, onClose }: AssertionModalPr
             </div>
           ))}
 
-          <div style={{ marginTop: "1.25rem", padding: "0.875rem 1rem", background: "var(--color-bg)", borderRadius: "0.5rem", fontSize: "0.8125rem", color: "var(--color-text-muted)", lineHeight: 1.6 }}>
-            <strong>Security model:</strong> Each assertion is signed server-side using HMAC-SHA256. 
+          <div style={{ marginTop: "1.5rem", padding: "1rem", background: "var(--bg-base)", border: "1px solid var(--border-subtle)", borderRadius: "0.5rem", fontSize: "0.875rem", color: "var(--text-secondary)", lineHeight: 1.6 }}>
+            <strong>Security model:</strong> Each record is signed server-side using HMAC-SHA256. 
             The signature covers: ID, subject, document type, status, issuer, timestamps, and consent ID. 
             Any modification invalidates the signature. Private keys never leave the server.
           </div>

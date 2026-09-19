@@ -1,6 +1,6 @@
 # EKsutra
 
-### Federated Verification & Government Service Interoperability Framework
+EkSutra is the interoperability layer connecting citizens, government services and departmental systems.
 
 > **"The citizen should not have to become the integration layer between government departments."**
 >
@@ -288,7 +288,7 @@ All data is synthetic. No real government data is used.
 1. **In-memory store resets on server restart** — Supabase integration recommended for persistence
 2. **Single demo citizen** — Production would support any authenticated citizen
 3. **HMAC-SHA256 instead of PKI** — Production would use department-specific asymmetric keys (RS256 or ES256)
-4. **No real authentication** — Production would integrate with MeriPehchaan or DigiLocker
+4. **No real authentication** — Production would integrate with MeriPehchaan
 5. **No consent revocation UI** — Prototype shows grant only; revocation requires citizen dashboard
 6. **Serverless state limitation** — Vercel Edge Functions would reset in-memory state; use Supabase for production
 
@@ -311,7 +311,7 @@ All data is synthetic. No real government data is used.
 ## EKsutra vs Existing DPI
 
 EKsutra is **not** a replacement for:
-- **DigiLocker** — document storage
+
 - **API Setu** — API gateway
 - **MeriPehchaan** — citizen identity
 - **UMANG** — service delivery

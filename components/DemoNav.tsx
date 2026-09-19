@@ -1,23 +1,30 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
+import { Menu, X } from "lucide-react";
+import Badge from "./ui/Badge";
+import PrimaryLogo from "@/components/logo/hero_logo.png";
+import IconLogo from "@/components/logo/hero_logo.png";
 
 const steps = [
-  { label: "Home", href: "/", short: "Home" },
-  { label: "Agriculture Dept", href: "/department/agriculture", short: "Dept A" },
-  { label: "Scholarship", href: "/department/scholarship", short: "Dept B" },
-  { label: "Admin", href: "/admin", short: "Admin" },
+  { label: "Home", href: "/" },
+  { label: "Agriculture Dept", href: "/department/agriculture" },
+  { label: "Scholarship", href: "/department/scholarship" },
+  { label: "Admin Directory", href: "/admin" },
 ];
 
 export default function DemoNav() {
   const pathname = usePathname();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
     <nav
       style={{
-        background: "white",
-        borderBottom: "1px solid var(--color-border)",
+        background: "var(--bg-surface)",
+        borderBottom: "1px solid var(--border-subtle)",
         position: "sticky",
         top: 0,
         zIndex: 40,
@@ -26,42 +33,35 @@ export default function DemoNav() {
     >
       <div
         style={{
-          maxWidth: 1100,
-          margin: "0 auto",
-          padding: "0 1.25rem",
+          padding: "0 2rem",
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          height: 52,
-          gap: "1rem",
+          height: 56,
+          position: "relative",
         }}
       >
         {/* Brand */}
-        <Link href="/" style={{ textDecoration: "none" }}>
-          <span className="brand-eksutra">EKsutra</span>
-        </Link>
+        <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+          <Link href="/" style={{ textDecoration: "none", display: "flex", alignItems: "center" }}>
+            <Image 
+              src={PrimaryLogo} 
+              alt="EkSutra Logo" 
+              className="logo-desktop" 
+              style={{ height: 36, width: "auto" }} 
+            />
+          </Link>
+          <Badge variant="demo">Demo Mode</Badge>
+        </div>
 
-        {/* Demo Journey Steps */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "0.25rem",
-            flexWrap: "wrap",
-          }}
-        >
+        {/* Desktop Nav */}
+        <div className="nav-desktop" style={{ position: "absolute", left: "50%", transform: "translateX(-50%)", display: "flex", gap: "0.25rem", alignItems: "center" }}>
           {steps.map((step, i) => {
             const active = pathname === step.href;
             return (
               <span key={step.href} style={{ display: "flex", alignItems: "center" }}>
                 {i > 0 && (
-                  <span
-                    style={{
-                      color: "var(--color-border)",
-                      margin: "0 0.25rem",
-                      fontSize: "0.875rem",
-                    }}
-                  >
+                  <span style={{ color: "var(--text-secondary)", margin: "0 0.5rem", fontSize: "0.875rem" }}>
                     →
                   </span>
                 )}
@@ -69,36 +69,93 @@ export default function DemoNav() {
                   href={step.href}
                   style={{
                     textDecoration: "none",
-                    fontSize: "0.8125rem",
+                    fontSize: "0.9375rem",
                     fontWeight: active ? 600 : 500,
-                    color: active ? "var(--color-primary)" : "var(--color-text-muted)",
-                    padding: "0.25rem 0.5rem",
-                    borderRadius: "0.25rem",
-                    background: active ? "var(--color-primary-light)" : "transparent",
+                    color: active ? "var(--text-primary)" : "var(--text-secondary)",
+                    padding: "0.375rem 0.75rem",
+                    borderRadius: "0.375rem",
+                    background: active ? "rgba(255,255,255,0.05)" : "transparent",
                     transition: "all 0.15s",
-                    whiteSpace: "nowrap",
+                    border: active ? "1px solid var(--border-subtle)" : "1px solid transparent",
                   }}
                 >
-                  <span className="hide-mobile">{step.label}</span>
-                  <span className="show-mobile">{step.short}</span>
+                  {step.label}
                 </Link>
               </span>
             );
           })}
         </div>
 
-        {/* Demo badge */}
-        <span className="badge badge-demo" style={{ flexShrink: 0 }}>
-          Demo
-        </span>
+        {/* Mobile Nav Toggle */}
+        <button
+          className="nav-mobile-toggle"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          style={{
+            background: "none",
+            border: "none",
+            color: "var(--text-primary)",
+            padding: "0.5rem",
+            cursor: "pointer",
+            display: "none",
+          }}
+          aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+        >
+          {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
       </div>
 
+      {/* Mobile Menu Off-canvas */}
+      {mobileMenuOpen && (
+        <div
+          className="nav-mobile-menu"
+          style={{
+            position: "absolute",
+            top: 56,
+            left: 0,
+            right: 0,
+            background: "var(--bg-surface)",
+            borderBottom: "1px solid var(--border-subtle)",
+            padding: "1rem 1.25rem",
+            display: "none",
+            flexDirection: "column",
+            gap: "0.5rem",
+            boxShadow: "var(--shadow-md)",
+          }}
+        >
+          {steps.map((step) => {
+            const active = pathname === step.href;
+            return (
+              <Link
+                key={step.href}
+                href={step.href}
+                onClick={() => setMobileMenuOpen(false)}
+                style={{
+                  textDecoration: "none",
+                  fontSize: "1rem",
+                  fontWeight: active ? 600 : 500,
+                  color: active ? "var(--accent-gold)" : "var(--text-primary)",
+                  padding: "0.75rem",
+                  borderRadius: "0.375rem",
+                  background: active ? "rgba(212, 167, 44, 0.1)" : "transparent",
+                }}
+              >
+                {step.label}
+              </Link>
+            );
+          })}
+        </div>
+      )}
+
       <style jsx>{`
-        .hide-mobile { display: inline; }
-        .show-mobile { display: none; }
-        @media (max-width: 640px) {
-          .hide-mobile { display: none; }
-          .show-mobile { display: inline; }
+        @media (max-width: 768px) {
+          .nav-desktop { display: none !important; }
+          .nav-mobile-toggle { display: block !important; }
+          .nav-mobile-menu { display: flex !important; }
+          .logo-desktop { display: none !important; }
+          .logo-mobile { display: block !important; }
+        }
+        @media (min-width: 769px) {
+          .logo-mobile { display: none !important; }
         }
       `}</style>
     </nav>
