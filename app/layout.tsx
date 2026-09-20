@@ -3,6 +3,7 @@ import "./globals.css";
 import DemoNav from "@/components/DemoNav";
 import Image from "next/image";
 import PrimaryLogo from "@/components/logo/hero_logo.png";
+import TranslateWidget from "@/components/TranslateWidget";
 
 export const metadata: Metadata = {
   title: "EKsutra — Federated Verification Framework",
@@ -40,19 +41,23 @@ export default function RootLayout({
         
         {/* Government Header */}
         <div style={{ backgroundColor: "var(--bg-surface)", borderBottom: "1px solid var(--border-subtle)", padding: "0.75rem 2rem" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-            {/* Generic Seal Placeholder */}
-            <div style={{ width: 40, height: 40, borderRadius: "50%", border: "2px solid var(--accent-gold)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-              <span style={{ fontSize: "1.25rem" }}>🏛️</span>
-            </div>
-            <div>
-              <div style={{ fontSize: "1rem", fontWeight: 700, color: "var(--text-primary)", letterSpacing: "0.02em" }}>
-                Government of Maharashtra
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+              {/* Generic Seal Placeholder */}
+              <div style={{ width: 40, height: 40, borderRadius: "50%", border: "2px solid var(--accent-gold)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                <span style={{ fontSize: "1.25rem" }}>🏛️</span>
               </div>
-              <div style={{ fontSize: "0.8125rem", color: "var(--text-secondary)" }}>
-                Digital Citizen Services <span style={{ color: "var(--accent-gold)" }}>(Prototype)</span>
+              <div>
+                <div style={{ fontSize: "1rem", fontWeight: 700, color: "var(--text-primary)", letterSpacing: "0.02em" }}>
+                  Government of Maharashtra
+                </div>
+                <div style={{ fontSize: "0.8125rem", color: "var(--text-secondary)" }}>
+                  Digital Citizen Services <span style={{ color: "var(--accent-gold)" }}>(Prototype)</span>
+                </div>
               </div>
             </div>
+            
+            <TranslateWidget />
           </div>
         </div>
 

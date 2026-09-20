@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Sun, Moon } from "lucide-react";
 import Badge from "./ui/Badge";
 import PrimaryLogo from "@/components/logo/hero_logo.png";
 import IconLogo from "@/components/logo/hero_logo.png";
@@ -19,6 +19,31 @@ const steps = [
 export default function DemoNav() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [theme, setTheme] = useState("dark");
+
+  useEffect(() => {
+    // Theme setup
+    const savedTheme = localStorage.getItem("theme") || "dark";
+    setTheme(savedTheme);
+    if (savedTheme === "light") {
+      document.documentElement.setAttribute("data-theme", "light");
+    } else {
+      document.documentElement.removeAttribute("data-theme");
+    }
+
+    // Google translate setup removed (now in TranslateWidget.tsx)
+  }, []);
+
+  const toggleTheme = () => {
+    const newTheme = theme === "dark" ? "light" : "dark";
+    setTheme(newTheme);
+    localStorage.setItem("theme", newTheme);
+    if (newTheme === "light") {
+      document.documentElement.setAttribute("data-theme", "light");
+    } else {
+      document.documentElement.removeAttribute("data-theme");
+    }
+  };
 
   return (
     <nav
@@ -86,22 +111,46 @@ export default function DemoNav() {
           })}
         </div>
 
-        {/* Mobile Nav Toggle */}
-        <button
-          className="nav-mobile-toggle"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          style={{
-            background: "none",
-            border: "none",
-            color: "var(--text-primary)",
-            padding: "0.5rem",
-            cursor: "pointer",
-            display: "none",
-          }}
-          aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
-        >
-          {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        {/* Controls Block */}
+        <div style={{ display: "flex", alignItems: "center", gap: "1rem", zIndex: 10 }}>
+          {/* Theme Toggle */}
+          <button 
+            onClick={toggleTheme} 
+            style={{ 
+              background: "transparent", 
+              border: "1px solid var(--border-subtle)", 
+              borderRadius: "50%",
+              width: "36px",
+              height: "36px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              cursor: "pointer", 
+              color: "var(--text-primary)",
+              transition: "all 0.15s"
+            }}
+            aria-label="Toggle Theme"
+          >
+            {theme === "light" ? <Sun size={18} /> : <Moon size={18} />}
+          </button>
+
+          {/* Mobile Nav Toggle */}
+          <button
+            className="nav-mobile-toggle"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            style={{
+              background: "none",
+              border: "none",
+              color: "var(--text-primary)",
+              padding: "0.5rem",
+              cursor: "pointer",
+              display: "none",
+            }}
+            aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+          >
+            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Menu Off-canvas */}
