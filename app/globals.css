@@ -1,7 +1,29 @@
 @import "tailwindcss";
 
 @layer base {
-  :root {
+  :root,
+  html[data-theme="light"] {
+    --bg-base: #FBF8F0;
+    --bg-surface: #F4EEDD;
+    --bg-surface-raised: #ECE3CB;
+    --border-subtle: rgba(27,36,56,0.10);
+    --text-primary: #1B2438;
+    --text-secondary: #5B5342;
+    --accent-gold: #B8860B;
+    --accent-emerald: #1F7A50;
+    --accent-saffron: #E08A3C;
+    --status-connected: #1F9D5C;
+    --status-pending: #C98A12;
+    --status-not-connected: #8B93A6;
+    --status-error: #C0392B;
+    
+    --radius: 0.5rem;
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.08);
+    --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.12), 0 2px 4px -2px rgba(0, 0, 0, 0.12);
+  }
+
+  html[data-theme="dark"] {
     --bg-base: #0B0F1A;
     --bg-surface: #131A2B;
     --bg-surface-raised: #1B2438;
@@ -20,21 +42,6 @@
     --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
     --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.5), 0 1px 2px -1px rgba(0, 0, 0, 0.5);
     --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.6), 0 2px 4px -2px rgba(0, 0, 0, 0.6);
-  }
-
-  html[data-theme="light"] {
-    --bg-base: #FBF8F0;
-    --bg-surface: #F4EEDD;
-    --bg-surface-raised: #ECE3CB;
-    --border-subtle: rgba(27,36,56,0.10);
-    --text-primary: #1B2438;
-    --text-secondary: #5B5342;
-    --accent-gold: #B8860B;
-    --accent-emerald: #1F7A50;
-    --status-connected: #1F9D5C;
-    --status-pending: #C98A12;
-    --status-not-connected: #8B93A6;
-    --status-error: #C0392B;
   }
 
   * {

@@ -19,16 +19,16 @@ const steps = [
 export default function DemoNav() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [theme, setTheme] = useState("dark");
+  const [theme, setTheme] = useState("light");
 
   useEffect(() => {
-    // Theme setup
-    const savedTheme = localStorage.getItem("theme") || "dark";
+    // Theme setup: default to light
+    const savedTheme = localStorage.getItem("theme") || "light";
     setTheme(savedTheme);
-    if (savedTheme === "light") {
-      document.documentElement.setAttribute("data-theme", "light");
+    if (savedTheme === "dark") {
+      document.documentElement.setAttribute("data-theme", "dark");
     } else {
-      document.documentElement.removeAttribute("data-theme");
+      document.documentElement.setAttribute("data-theme", "light");
     }
 
     // Google translate setup removed (now in TranslateWidget.tsx)
@@ -38,11 +38,7 @@ export default function DemoNav() {
     const newTheme = theme === "dark" ? "light" : "dark";
     setTheme(newTheme);
     localStorage.setItem("theme", newTheme);
-    if (newTheme === "light") {
-      document.documentElement.setAttribute("data-theme", "light");
-    } else {
-      document.documentElement.removeAttribute("data-theme");
-    }
+    document.documentElement.setAttribute("data-theme", newTheme);
   };
 
   return (
@@ -130,6 +126,7 @@ export default function DemoNav() {
               transition: "all 0.15s"
             }}
             aria-label="Toggle Theme"
+            title={theme === "light" ? "Switch to Dark Theme" : "Switch to Light Theme"}
           >
             {theme === "light" ? <Sun size={18} /> : <Moon size={18} />}
           </button>
