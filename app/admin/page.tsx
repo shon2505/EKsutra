@@ -18,13 +18,13 @@ export default function AdminDirectoryPage() {
 
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "1.5rem" }}>
           {DEPARTMENTS.map((dept) => {
-            const isAgOrEdu = dept.id === "DEPT-AGR" || dept.id === "DEPT-EDU";
+            const adminRoute = dept.route.replace('/department', '/admin');
             return (
-              <Link key={dept.id} href={isAgOrEdu ? dept.route.replace('/department', '/admin') : '#'} style={{ textDecoration: "none", color: "inherit", pointerEvents: isAgOrEdu ? "auto" : "none" }}>
-                <Card interactive={isAgOrEdu} style={{ padding: "1.5rem", display: "flex", flexDirection: "column", height: "100%", opacity: isAgOrEdu ? 1 : 0.6 }}>
+              <Link key={dept.id} href={adminRoute} style={{ textDecoration: "none", color: "inherit" }}>
+                <Card interactive style={{ padding: "1.5rem", display: "flex", flexDirection: "column", height: "100%" }}>
                   <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "1.5rem" }}>
                     <div style={{ width: 48, height: 48, borderRadius: "0.5rem", background: "var(--bg-surface-raised)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                      <Building2 size={24} style={{ color: "var(--text-secondary)" }} />
+                      <Building2 size={24} style={{ color: dept.color || "var(--text-secondary)" }} />
                     </div>
                     <div>
                       <h2 style={{ margin: 0, fontSize: "1.125rem", fontWeight: 700, color: "var(--text-primary)" }}>{dept.name}</h2>
@@ -32,14 +32,8 @@ export default function AdminDirectoryPage() {
                     </div>
                   </div>
                   <div style={{ marginTop: "auto", display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: "0.875rem", color: "var(--text-primary)", fontWeight: 600 }}>
-                    {isAgOrEdu ? (
-                      <>
-                        <span>Enter Dashboard</span>
-                        <ArrowRight size={16} />
-                      </>
-                    ) : (
-                      <Badge variant="neutral">Dashboard Offline in Demo</Badge>
-                    )}
+                    <span>Enter Dashboard</span>
+                    <ArrowRight size={16} />
                   </div>
                 </Card>
               </Link>

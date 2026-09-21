@@ -209,6 +209,29 @@ const SEEDED_AUDIT: AuditEntry[] = [
     eventType: "CONNECTION_REQUEST_RECEIVED",
     description: "Received connection request from Agriculture Department",
     departmentId: "DEPT-NSDL",
+  },
+  {
+    id: "AUDIT-004",
+    timestamp: TODAY + "T08:15:00.000Z",
+    eventType: "VERIFICATION_ISSUED",
+    description: "Land ownership records verified for 7/12 extract",
+    subjectId: "USER-1001",
+    departmentId: "DEPT-REV",
+  },
+  {
+    id: "AUDIT-005",
+    timestamp: TODAY + "T07:45:00.000Z",
+    eventType: "API_CONNECTED",
+    description: "Land Records Database synced successfully",
+    departmentId: "DEPT-REV",
+  },
+  {
+    id: "AUDIT-006",
+    timestamp: TODAY + "T10:35:00.000Z",
+    eventType: "VERIFICATION_REUSED",
+    description: "Reused Aadhaar & Income verification from Agriculture Department",
+    subjectId: "USER-1001",
+    departmentId: "DEPT-EDU",
   }
 ];
 
