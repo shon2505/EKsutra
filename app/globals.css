@@ -191,6 +191,275 @@
     white-space: pre-wrap;
     word-break: break-all;
   }
+
+  /* --- Global Button Styles --- */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    border-radius: var(--radius);
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    text-decoration: none;
+    line-height: 1.25;
+    white-space: nowrap;
+    user-select: none;
+    font-size: 0.9375rem;
+    padding: 0.625rem 1.25rem;
+  }
+
+  .btn:hover {
+    transform: translateY(-1.5px);
+  }
+
+  .btn:active {
+    transform: translateY(0);
+  }
+
+  .btn-sm {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.8125rem;
+    border-radius: 0.375rem;
+  }
+
+  .btn-lg {
+    padding: 0.875rem 1.875rem;
+    font-size: 1.0625rem;
+    border-radius: 0.625rem;
+    font-weight: 600;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--accent-gold) 0%, #a07409 100%);
+    color: #ffffff;
+    box-shadow: 0 4px 14px rgba(184, 134, 11, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  html[data-theme="dark"] .btn-primary {
+    background: linear-gradient(135deg, #E5B73B 0%, #B8860B 100%);
+    color: #0B0F1A;
+    font-weight: 700;
+    box-shadow: 0 4px 18px rgba(212, 167, 44, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+
+  .btn-primary:hover {
+    box-shadow: 0 6px 20px rgba(184, 134, 11, 0.45);
+    filter: brightness(1.06);
+  }
+
+  html[data-theme="dark"] .btn-primary:hover {
+    box-shadow: 0 6px 24px rgba(212, 167, 44, 0.6);
+  }
+
+  .btn-secondary {
+    background: var(--bg-surface);
+    color: var(--text-primary);
+    border: 1.5px solid var(--border-subtle);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--accent-gold);
+    color: var(--accent-gold);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--text-secondary);
+    border: 1px solid var(--border-subtle);
+  }
+
+  .btn-ghost:hover {
+    background: var(--bg-surface-raised);
+    color: var(--text-primary);
+    border-color: var(--accent-gold);
+  }
+
+  .btn-danger {
+    background: rgba(224, 90, 90, 0.12);
+    color: var(--status-error);
+    border: 1px solid rgba(224, 90, 90, 0.3);
+  }
+
+  .btn-danger:hover {
+    background: var(--status-error);
+    color: #ffffff;
+  }
+
+  /* --- Cards & Badges --- */
+  .card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    padding: 1.5rem;
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s, border-color 0.2s;
+  }
+
+  .card-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--accent-gold);
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.25rem 0.625rem;
+    border-radius: 9999px;
+    letter-spacing: 0.025em;
+  }
+
+  .badge-primary {
+    background: rgba(184, 134, 11, 0.12);
+    color: var(--accent-gold);
+    border: 1px solid rgba(184, 134, 11, 0.3);
+  }
+
+  html[data-theme="dark"] .badge-primary {
+    background: rgba(212, 167, 44, 0.15);
+    color: var(--accent-gold);
+    border: 1px solid rgba(212, 167, 44, 0.35);
+  }
+
+  .badge-neutral {
+    background: var(--bg-surface-raised);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-subtle);
+  }
+
+  /* --- Hero Glassmorphism Call-To-Action Buttons --- */
+  @keyframes hero-gold-glow {
+    0%, 100% {
+      box-shadow: 0 0 0 0 rgba(212, 167, 44, 0.45), 0 4px 20px rgba(184, 134, 11, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.3);
+    }
+    50% {
+      box-shadow: 0 0 0 7px rgba(212, 167, 44, 0), 0 8px 30px rgba(212, 167, 44, 0.45), inset 0 1px 2px rgba(255, 255, 255, 0.5);
+    }
+  }
+
+  @keyframes hero-shine-sweep {
+    0% {
+      left: -120%;
+    }
+    30%, 100% {
+      left: 180%;
+    }
+  }
+
+  .hero-btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 0.9375rem 2.25rem;
+    font-size: 1.125rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    border-radius: 0.75rem;
+    text-decoration: none;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    color: var(--text-primary);
+    background: rgba(212, 167, 44, 0.14);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 2px solid var(--accent-gold);
+    box-shadow: 0 4px 22px rgba(184, 134, 11, 0.25), inset 0 1px 2px rgba(255, 255, 255, 0.4);
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    animation: hero-gold-glow 3s infinite ease-in-out;
+  }
+
+  html[data-theme="dark"] .hero-btn-primary {
+    color: #FFFFFF;
+    background: rgba(212, 167, 44, 0.16);
+    border: 2px solid #D4A72C;
+    box-shadow: 0 0 25px rgba(212, 167, 44, 0.35), inset 0 1px 2px rgba(255, 255, 255, 0.25);
+  }
+
+  .hero-btn-primary::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -120%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.3),
+      transparent
+    );
+    transform: skewX(-22deg);
+    animation: hero-shine-sweep 4.5s infinite ease-in-out;
+    pointer-events: none;
+  }
+
+  .hero-btn-primary:hover {
+    transform: translateY(-3px) scale(1.02);
+    background: rgba(212, 167, 44, 0.25);
+    box-shadow: 0 10px 32px rgba(212, 167, 44, 0.5), 0 0 0 1px var(--accent-gold), inset 0 1px 2px rgba(255, 255, 255, 0.6);
+  }
+
+  .hero-btn-primary:active {
+    transform: translateY(-1px) scale(1);
+  }
+
+  .hero-btn-primary .hero-arrow {
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .hero-btn-primary:hover .hero-arrow {
+    transform: translateX(4px);
+  }
+
+  .hero-btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.625rem;
+    padding: 0.9375rem 2rem;
+    font-size: 1.0625rem;
+    font-weight: 600;
+    border-radius: 0.75rem;
+    text-decoration: none;
+    cursor: pointer;
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1.5px solid var(--border-subtle);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  html[data-theme="dark"] .hero-btn-secondary {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1.5px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  }
+
+  .hero-btn-secondary:hover {
+    transform: translateY(-3px) scale(1.02);
+    border-color: var(--accent-gold);
+    color: var(--accent-gold);
+    background: rgba(212, 167, 44, 0.08);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08), 0 0 16px rgba(212, 167, 44, 0.2);
+  }
+
+  .hero-btn-secondary:active {
+    transform: translateY(-1px) scale(1);
+  }
 }
 
 /* Hide the Google Translate banner & branding */

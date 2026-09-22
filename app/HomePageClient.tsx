@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import DepartmentTransition from "@/components/DepartmentTransition";
-import { Shield, RefreshCw, CheckCircle, BarChart2, ArrowRight, Building2 } from "lucide-react";
+import { Shield, RefreshCw, CheckCircle, BarChart2, ArrowRight, Building2, LayoutDashboard, Play } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import PrimaryLogo from "@/components/logo/hero_logo.png";
@@ -24,12 +24,12 @@ export default function HomePageClient() {
         style={{
           background: "var(--bg-base)",
           borderBottom: "1px solid var(--border-subtle)",
-          padding: "5rem 1.5rem 4rem",
+          padding: "2.5rem 1.5rem 3rem",
           textAlign: "center",
         }}
       >
         <div style={{ maxWidth: 680, margin: "0 auto" }}>
-          <div className="badge badge-primary" style={{ marginBottom: "1.5rem", fontSize: "0.8125rem" }}>
+          <div className="badge badge-primary" style={{ marginBottom: "1.25rem", fontSize: "0.8125rem" }}>
             Smart India Hackathon 2026 · Prototype / Demonstration Portal
           </div>
 
@@ -68,13 +68,33 @@ export default function HomePageClient() {
             </strong>
           </p>
 
-          <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
-            <Link href="/department/agriculture" className="btn btn-primary btn-lg" id="start-demo-btn">
-              Start Demo
-              <ArrowRight size={18} />
+          <div
+            style={{
+              display: "flex",
+              gap: "1.25rem",
+              justifyContent: "center",
+              alignItems: "center",
+              flexWrap: "wrap",
+              marginTop: "0.5rem",
+            }}
+          >
+            <Link
+              href="/department/agriculture"
+              className="hero-btn-primary"
+              id="start-demo-btn"
+            >
+              <Play size={18} fill="currentColor" />
+              <span>Start Demo</span>
+              <ArrowRight size={20} className="hero-arrow" />
             </Link>
-            <Link href="/admin" className="btn btn-secondary btn-lg" id="admin-dashboard-btn">
-              Admin Dashboard
+
+            <Link
+              href="/admin"
+              className="hero-btn-secondary"
+              id="admin-dashboard-btn"
+            >
+              <LayoutDashboard size={18} />
+              <span>Admin Dashboard</span>
             </Link>
           </div>
         </div>

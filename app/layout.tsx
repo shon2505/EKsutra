@@ -6,6 +6,7 @@ import PrimaryLogo from "@/components/logo/hero_logo.png";
 import TranslateWidget from "@/components/TranslateWidget";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"),
   title: "EKsutra — Federated Verification Framework",
   description:
     "EkSutra is the interoperability layer connecting citizens, government services and departmental systems.",
